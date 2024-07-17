@@ -1,0 +1,13 @@
+[workspace.package]
+rust-version = "1.79"
+
+[workspace]
+resolver = "2"
+members = [
+    "thought-repo-backend",
+]
+
+[workspace.metadata.publish]
+order = [
+    "thought-repo-backend",
+]
