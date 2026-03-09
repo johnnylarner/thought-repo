@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>johnny thinks - travel</title>
+    <link rel="self" type="application/atom+xml" href="https://johnnylarner.github.io/thought-repo/tags/travel/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://johnnylarner.github.io/thought-repo"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-03-05T00:00:00+00:00</updated>
+    <id>https://johnnylarner.github.io/thought-repo/tags/travel/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Dummy Travel Post 2</title>
+        <published>2026-03-05T00:00:00+00:00</published>
+        <updated>2026-03-05T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://johnnylarner.github.io/thought-repo/blog/dummy-travel-2/"/>
+        <id>https://johnnylarner.github.io/thought-repo/blog/dummy-travel-2/</id>
+        
+        <content type="html" xml:base="https://johnnylarner.github.io/thought-repo/blog/dummy-travel-2/">&lt;p&gt;This is another dummy travel post for manual UI testing.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Dummy Travel Post 1</title>
+        <published>2026-03-02T00:00:00+00:00</published>
+        <updated>2026-03-02T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://johnnylarner.github.io/thought-repo/blog/dummy-travel-1/"/>
+        <id>https://johnnylarner.github.io/thought-repo/blog/dummy-travel-1/</id>
+        
+        <content type="html" xml:base="https://johnnylarner.github.io/thought-repo/blog/dummy-travel-1/">&lt;p&gt;This is a dummy travel post for manual UI testing.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

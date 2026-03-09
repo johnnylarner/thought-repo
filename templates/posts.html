@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{%- block title -%}
+{{ page.title }} | {{ config.title }}
+{%- endblock -%}
+
+{%- block description -%}
+    {%- if page.description %}
+    <meta name="description" content="{{ page.description | markdown(inline=true) | striptags }}">
+    {%- endif %}
+{%- endblock -%}
+
+{%- block main -%}
+{%- set source_path = page.extra.section_path | default(value="/_index.md") -%}
+{%- set source_section = get_section(path=source_path) -%}
+{%- if source_section.paginate_reversed == true -%}
+    {%- set ordered_posts = source_section.pages | reverse -%}
+{%- else -%}
+    {%- set ordered_posts = source_section.pages -%}
+{%- endif -%}
+{%- set_global dated_posts = [] -%}
+{%- for post in ordered_posts -%}
+    {%- if post.date -%}
+        {%- set_global dated_posts = dated_posts | concat(with=post) -%}
+    {%- endif -%}
+{%- endfor -%}
+
+<section class="posts-page">
+    <header class="posts-page__header">
+        <h1>{{ page.title }}</h1>
+        {%- if page.description %}
+        <p>{{ page.description }}</p>
+        {%- endif %}
+    </header>
+
+    <div class="posts-page__list">
+        {%- for post in dated_posts %}
+        {%- set post_tags = post.taxonomies.tags | default(value=[]) -%}
+        <article class="posts-page-item" data-tags="{{ post_tags | join(sep="|") | lower }}">
+            <h2><a href="{{ post.permalink | safe }}">{{ post.title }}</a></h2>
+            <p class="posts-page-item__meta">
+                {% if post.date %}{{ post.date | date(format="%B %-d, %Y") }}{% else %}Undated{% endif %}
+            </p>
+            {% if post.description %}
+            <p>{{ post.description }}</p>
+            {% elif post.summary %}
+            <p>{{ post.summary | striptags | safe }}</p>
+            {% endif %}
+            {% if post_tags | length > 0 %}
+            <p class="posts-page-item__tags">
+                {% for tag in post_tags -%}
+                <span>#{{ tag }}</span>
+                {% endfor %}
+            </p>
+            {% endif %}
+        </article>
+        {%- endfor %}
+    </div>
+
+    <p class="posts-page__empty" hidden>No posts match this tag filter.</p>
+</section>
+<script src="{{ get_url(path="js/posts-filter.js", cachebust=true) }}" defer></script>
+{%- endblock -%}

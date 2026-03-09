@@ -1,0 +1,170 @@
+@mixin title-fade-surface($accent-strength: 24%, $surface-strength: 78%, $surface-black: 22%) {
+    background:
+        radial-gradient(circle at 0 0, color-mix(in srgb, var(--accent-color) $accent-strength, transparent), transparent 60%),
+        color-mix(in srgb, var(--background-color) $surface-strength, black $surface-black);
+}
+
+@mixin title-item-card($accent-strength: 24%, $surface-strength: 78%, $surface-black: 22%) {
+    display: grid;
+    gap: 0.45rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--text-color) 16%, transparent);
+    @include title-fade-surface($accent-strength, $surface-strength, $surface-black);
+}
+
+.title-page {
+    display: grid;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.title-hero {
+    display: grid;
+    gap: 1rem;
+    padding: 1.75rem;
+    border: 1px solid color-mix(in srgb, var(--text-color) 25%, transparent);
+    @include title-fade-surface;
+    animation: title-enter 450ms ease-out both;
+}
+
+.title-hero__eyebrow {
+    margin: 0;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--text-color) 70%, transparent);
+}
+
+.title-hero__headline {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.08;
+}
+
+.title-hero__support {
+    margin: 0;
+    max-width: 58ch;
+    color: color-mix(in srgb, var(--text-color) 82%, transparent);
+}
+
+.title-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0.9rem;
+}
+
+.title-panel {
+    border: 1px solid color-mix(in srgb, var(--text-color) 20%, transparent);
+    background: transparent;
+    padding: 1rem;
+
+    h2,
+    h3,
+    p {
+        margin: 0;
+    }
+
+    p {
+        margin-top: 0.75rem;
+        color: color-mix(in srgb, var(--text-color) 82%, transparent);
+    }
+}
+
+.title-panel__preview {
+    @include title-item-card;
+    margin-top: 0.75rem;
+}
+
+.title-panel__preview p {
+    margin: 0;
+}
+
+.title-panel__single-date {
+    color: color-mix(in srgb, var(--text-color) 65%, transparent);
+}
+
+.title-panel__single-title {
+    font-weight: bold;
+}
+
+.title-panel-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        border-color: color-mix(in srgb, var(--accent-color) 45%, transparent);
+        background: color-mix(in srgb, var(--accent-color) 8%, transparent);
+    }
+}
+
+.title-panel--feature {
+    grid-row: span 2;
+    min-height: 14rem;
+}
+
+.title-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.title-list__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.title-list__header h2 {
+    margin: 0;
+}
+
+.title-list__all {
+    white-space: nowrap;
+}
+
+.title-list__empty {
+    margin: 0;
+    color: color-mix(in srgb, var(--text-color) 75%, transparent);
+}
+
+.title-list__items {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.title-post {
+    @include title-item-card(16%, 82%, 18%);
+
+    h3,
+    p {
+        margin: 0;
+    }
+}
+
+.title-post__meta {
+    color: color-mix(in srgb, var(--text-color) 65%, transparent);
+}
+
+@media (max-width: 760px) {
+    .title-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .title-panel--feature {
+        grid-row: auto;
+        min-height: 0;
+    }
+}
+
+@keyframes title-enter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

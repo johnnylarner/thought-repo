@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{%- block main -%}
+{%- if section.extra.section_path -%}
+    {%- set post_section = get_section(path=section.extra.section_path) -%}
+    {%- if post_section.paginate_reversed == true -%}
+        {%- set ordered_posts = post_section.pages | reverse -%}
+    {%- else -%}
+        {%- set ordered_posts = post_section.pages -%}
+    {%- endif -%}
+{%- else -%}
+    {%- set post_section = section -%}
+    {%- set ordered_posts = post_section.pages -%}
+{%- endif -%}
+
+{% set posts_link = "/posts/" %}
+{%- set_global dated_posts = [] -%}
+{%- for page in ordered_posts -%}
+    {%- if page.date -%}
+        {%- set_global dated_posts = dated_posts | concat(with=page) -%}
+    {%- endif -%}
+{%- endfor -%}
+{%- set_global software_posts = [] -%}
+{%- set_global travel_posts = [] -%}
+{%- set_global current_affairs_posts = [] -%}
+{%- for page in dated_posts -%}
+    {%- if page.taxonomies and page.taxonomies.tags -%}
+        {%- if "software" in page.taxonomies.tags and software_posts | length < 1 -%}
+            {%- set_global software_posts = software_posts | concat(with=page) -%}
+        {%- endif -%}
+        {%- if "travel" in page.taxonomies.tags and travel_posts | length < 1 -%}
+            {%- set_global travel_posts = travel_posts | concat(with=page) -%}
+        {%- endif -%}
+        {%- if "current affairs" in page.taxonomies.tags and current_affairs_posts | length < 1 -%}
+            {%- set_global current_affairs_posts = current_affairs_posts | concat(with=page) -%}
+        {%- endif -%}
+    {%- endif -%}
+{%- endfor -%}
+{% set about_summary = section.extra.about_summary | default(value="I write about software, travel, and current affairs. This section is a quick entry point to learn who I am and what this blog is about.") %}
+{% set post_list = dated_posts | slice(end=5) %}
+
+<section class="title-page">
+    <header class="title-hero">
+        <p class="title-hero__eyebrow">Home</p>
+        <h1 class="title-hero__headline">About Me</h1>
+        <p class="title-hero__support">{{ about_summary }}</p>
+    </header>
+
+    <section id="layout-grid" class="title-grid" aria-label="Tag panels">
+        <a class="title-panel title-panel-link title-panel--feature" href="/posts/?tag=software">
+            <h3>Software</h3>
+            <div class="title-panel__preview">
+                {% if software_posts | length > 0 %}
+                {% set software_post = software_posts | first %}
+                <p class="title-panel__single-title">{{ software_post.title }}</p>
+                {% if software_post.date %}
+                <p class="title-panel__single-date">{{ software_post.date | date(format="%b %-d, %Y") }}</p>
+                {% endif %}
+                {% else %}
+                <p>Latest software post will appear here.</p>
+                {% endif %}
+            </div>
+        </a>
+        <a class="title-panel title-panel-link title-panel--stack" href="/posts/?tag=travel">
+            <h3>Travel</h3>
+            <div class="title-panel__preview">
+                {% if travel_posts | length > 0 %}
+                {% set travel_post = travel_posts | first %}
+                <p class="title-panel__single-title">{{ travel_post.title }}</p>
+                {% if travel_post.date %}
+                <p class="title-panel__single-date">{{ travel_post.date | date(format="%b %-d, %Y") }}</p>
+                {% endif %}
+                {% else %}
+                <p>Latest travel post will appear here.</p>
+                {% endif %}
+            </div>
+        </a>
+        <a class="title-panel title-panel-link title-panel--stack" href="/posts/?tag=current%20affairs">
+            <h3>Current Affairs</h3>
+            <div class="title-panel__preview">
+                {% if current_affairs_posts | length > 0 %}
+                {% set affairs_post = current_affairs_posts | first %}
+                <p class="title-panel__single-title">{{ affairs_post.title }}</p>
+                {% if affairs_post.date %}
+                <p class="title-panel__single-date">{{ affairs_post.date | date(format="%b %-d, %Y") }}</p>
+                {% endif %}
+                {% else %}
+                <p>Latest current affairs post will appear here.</p>
+                {% endif %}
+            </div>
+        </a>
+    </section>
+
+    <section id="recent-posts" class="title-list" aria-label="Recent posts">
+        <div class="title-list__header">
+            <h2>Latest Entries</h2>
+            <a class="title-list__all" href="{{ posts_link | safe }}">all posts</a>
+        </div>
+        {% if post_list | length > 0 %}
+        <div class="title-list__items">
+        {% for page in post_list -%}
+            <article class="title-post">
+                <h3><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h3>
+                {% if page.date %}
+                <p class="title-post__meta">{{ page.date | date(format="%B %-d, %Y") }}</p>
+                {% endif %}
+                {% if page.description %}
+                <p>{{ page.description }}</p>
+                {% elif page.summary %}
+                <p>{{ page.summary | striptags | safe }}</p>
+                {% endif %}
+            </article>
+        {% endfor -%}
+        </div>
+        {% else %}
+        <p class="title-list__empty">No posts published yet.</p>
+        {% endif %}
+    </section>
+</section>
+{%- endblock -%}

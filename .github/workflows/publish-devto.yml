@@ -1,0 +1,32 @@
+name: Publish New Posts to DEV
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  publish-devto:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Publish to DEV
+        uses: sinedied/publish-devto@v2
+        with:
+          devto_key: ${{ secrets.DEVTO_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          files: |
+            content/blog/**/*.md
+            !content/**/_index.md
