@@ -37,12 +37,17 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Collect blog articles for DEV
+        id: devto_files
+        run: |
+          # _index.md is used by zola so skip it
+          files=$(find content/blog -type f -name '*.md' ! -name '_index.md' | sort | tr '\n' ' ')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+
       - name: Publish to DEV
         uses: sinedied/publish-devto@v2
         with:
           devto_key: ${{ secrets.DEVTO_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          files: |
-            content/blog/**/*.md
-            !content/**/_index.md
+          files: ${{ steps.devto_files.outputs.files }}
