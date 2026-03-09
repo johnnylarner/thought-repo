@@ -42,6 +42,7 @@ jobs:
         run: |
           # _index.md is used by zola so skip it
           files=$(find content/blog -type f -name '*.md' ! -name '_index.md' | sort | tr '\n' ' ')
+          echo $files
           echo "files=$files" >> "$GITHUB_OUTPUT"
 
       - name: Publish to DEV
