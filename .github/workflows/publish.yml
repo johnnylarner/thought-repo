@@ -43,4 +43,4 @@ jobs:
           devto_key: ${{ secrets.DEVTO_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          files: content/blog/**/!(_index).md
+          files: content/blog/**/*.md
