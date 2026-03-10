@@ -9,7 +9,7 @@ tags = ["travel"]
 copy_button = true
 +++
 
-I travelled to Taipei in Taiwan after spending a month with family and friends in [New Zealand](https://johnnylarner.github.io/thought-repo/blog/new-zealand/).
+I travelled to Taipei in Taiwan after spending a month with family and friends in [New Zealand](@/blog/new-zealand.md).
 
 🌹: Foreignness is used to delineate differences between what we know and know not, who we are and who we aren’t. Being a total foreigner in Taipei forced me to rely on intuition to feel at peace. It removed external stimuli that impact what you think you want and need in your life. In this sense, it brought me closer to myself. It also awakened a renewed sense of curiosity in me, something that the novo-colonial paradise of Bali and post-colonial New Zealand failed to do. The feeling of _Neugier_ helps dampen the noise in my mind to discover what is truly dear to me. 
 
