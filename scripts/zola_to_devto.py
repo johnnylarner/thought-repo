@@ -49,16 +49,26 @@ def yaml_list(values: list[object]) -> str:
     return "[" + ", ".join(yaml_scalar(value) for value in values) + "]"
 
 
-def build_devto_front_matter(metadata: dict[str, object]) -> str:
+def get_tags(metadata: dict[str, object]) -> list[object]:
     taxonomies = metadata.get("taxonomies")
+    if not isinstance(taxonomies, dict):
+        return []
+
+    raw_tags = taxonomies.get("tags")
+    if not isinstance(raw_tags, list):
+        return []
+
+    return raw_tags
+
+
+def has_software_tag(metadata: dict[str, object]) -> bool:
+    return any(isinstance(tag, str) and tag == "software" for tag in get_tags(metadata))
+
+
+def build_devto_front_matter(metadata: dict[str, object]) -> str:
     extra = metadata.get("extra")
 
-    tags: list[object] = []
-    if isinstance(taxonomies, dict):
-        raw_tags = taxonomies.get("tags")
-        if isinstance(raw_tags, list):
-            tags = raw_tags
-
+    tags = get_tags(metadata)
     cover_image = None
     devto_id = None
     if isinstance(extra, dict):
@@ -82,14 +92,23 @@ def build_devto_front_matter(metadata: dict[str, object]) -> str:
     return "\n".join(lines)
 
 
-def convert_file(source_path: Path, target_path: Path) -> None:
+def convert_file(source_path: Path, target_path: Path) -> bool:
     text = source_path.read_text(encoding="utf-8")
     front_matter_text, body = split_zola_front_matter(text, source_path)
     metadata = tomllib.loads(front_matter_text)
+
+    if not has_software_tag(metadata):
+        print(
+            f"Warning: {source_path} does not contain the 'software' tag; skipping DEV conversion.",
+            file=sys.stderr,
+        )
+        return False
+
     devto_front_matter = build_devto_front_matter(metadata)
 
     target_path.parent.mkdir(parents=True, exist_ok=True)
     target_path.write_text(f"{devto_front_matter}\n{body}", encoding="utf-8")
+    return True
 
 
 def iter_markdown_files(source_dir: Path) -> list[Path]:

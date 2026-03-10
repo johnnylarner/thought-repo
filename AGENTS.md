@@ -121,14 +121,16 @@ Key `[extra]` options in `config.toml`:
 
 ## CI Publishing (dev.to)
 
-- Workflow file: `.github/workflows/publish-devto.yml`
-- Publish is triggered on PR merge to `main` (`pull_request` `closed` + merged guard)
+- Workflow file: `.github/workflows/publish.yml`
+- Publish is triggered on push to `main` and manual `workflow_dispatch`
 - Sync scope is all markdown files under `content/blog/`
-- `_index.md` files are excluded via workflow glob
+- `_index.md` files are excluded during conversion
+- Posts without a `software` tag are skipped with a warning during DEV conversion
 - Create/update behavior is delegated to `sinedied/publish-devto` sync state
 - Publishing is done via `sinedied/publish-devto@v2`
+- GitHub Pages deployment happens in the same workflow before DEV publishing
 - Required GitHub secret: `DEVTO_API_KEY`
-- Draft status is not filtered in CI; if a draft file is merged as a new article, publish will be attempted
+- Draft status is converted to `published: false` in the generated DEV front matter
 - Posts should include `canonical_url` pointing to the blog URL for SEO attribution on dev.to
 
 ## Requirements
