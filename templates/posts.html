@@ -13,11 +13,7 @@
 {%- block main -%}
 {%- set source_path = page.extra.section_path | default(value="/_index.md") -%}
 {%- set source_section = get_section(path=source_path) -%}
-{%- if source_section.paginate_reversed == true -%}
-    {%- set ordered_posts = source_section.pages | reverse -%}
-{%- else -%}
-    {%- set ordered_posts = source_section.pages -%}
-{%- endif -%}
+{%- set ordered_posts = source_section.pages -%}
 {%- set_global dated_posts = [] -%}
 {%- for post in ordered_posts -%}
     {%- if post.date -%}
@@ -39,7 +35,7 @@
         <article class="posts-page-item" data-tags="{{ post_tags | join(sep="|") | lower }}">
             <h2><a href="{{ post.permalink | safe }}">{{ post.title }}</a></h2>
             <p class="posts-page-item__meta">
-                {% if post.date %}{{ post.date | date(format="%B %-d, %Y") }}{% else %}Undated{% endif %}
+                {% if post.date %}{{ post.date | date(format="%-d %B %Y") }}{% else %}Undated{% endif %}
             </p>
             {% if post.description %}
             <p>{{ post.description }}</p>
