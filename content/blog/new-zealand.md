@@ -9,7 +9,7 @@ tags = ["travel"]
 copy_button = true
 +++
 
-I travelled to New Zealand shortly after [Bali and Singapore]("https://johnnylarner.github.io/thought-repo/blog/bali-and-singapore/"). 
+I travelled to New Zealand shortly after [Bali and Singapore](@/blog/bali-and-singapore.md).
 
 🌹: My kiwi summer was always going to be defined by the generosity of my friends and family who hosted me across six locations on the north island. Among the hazy wedding golf shots, steep mountain bike trails, spontaneous surfing trips, sunbathing by waterfalls and Christmas on the beach there are many great memories. But top of mind remains my honeymoon sailing trip with Cam, his brother Ben and his wife Jess. The gulf - with mild winds and baking sunshine - saw us run aground and practise our tacs. It gifted me my first fish - and fish heart 🌚 - as well as shark sightings! The freedom of open waters, the fresh morning swims and business of managing on old school sail boat made an impression on me and reinstated my commitment to learning to skipper a boat. Let’s see what summer brings!
 
