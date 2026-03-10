@@ -9,7 +9,8 @@
     {%- set ordered_posts = post_section.pages -%}
 {%- endif -%}
 
-{% set posts_link = "/posts/" %}
+{%- set posts_page = get_page(path="posts.md") -%}
+{% set posts_link = posts_page.permalink %}
 {%- set_global dated_posts = [] -%}
 {%- for page in ordered_posts -%}
     {%- if page.date -%}
@@ -43,7 +44,7 @@
     </header>
 
     <section id="layout-grid" class="title-grid" aria-label="Tag panels">
-        <a class="title-panel title-panel-link title-panel--feature" href="/posts/?tag=software">
+        <a class="title-panel title-panel-link title-panel--feature" href="{{ posts_link | safe }}?tag=software">
             <h3>Software</h3>
             <div class="title-panel__preview">
                 {% if software_posts | length > 0 %}
@@ -57,7 +58,7 @@
                 {% endif %}
             </div>
         </a>
-        <a class="title-panel title-panel-link title-panel--stack" href="/posts/?tag=travel">
+        <a class="title-panel title-panel-link title-panel--stack" href="{{ posts_link | safe }}?tag=travel">
             <h3>Travel</h3>
             <div class="title-panel__preview">
                 {% if travel_posts | length > 0 %}
@@ -71,7 +72,7 @@
                 {% endif %}
             </div>
         </a>
-        <a class="title-panel title-panel-link title-panel--stack" href="/posts/?tag=current%20affairs">
+        <a class="title-panel title-panel-link title-panel--stack" href="{{ posts_link | safe }}?tag=current%20affairs">
             <h3>Current Affairs</h3>
             <div class="title-panel__preview">
                 {% if current_affairs_posts | length > 0 %}
