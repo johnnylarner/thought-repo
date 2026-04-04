@@ -41,9 +41,10 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Convert Zola posts for DEV
-        run: python3 scripts/zola_to_devto.py content/blog "${{ env.DEVTO_DIR }}"
+        run: python3 scripts/zola_to_devto.py content/blog "${{ env.DEVTO_DIR }}" --base-ref "${{ github.event.before }}"
 
       - name: Publish to DEV
+        if: hashFiles(format('{0}/**/*.md', env.DEVTO_DIR)) != ''
         uses: sinedied/publish-devto@v2
         with:
           devto_key: ${{ secrets.DEVTO_API_KEY }}

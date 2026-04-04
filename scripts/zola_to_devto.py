@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 import tomllib
 from pathlib import Path
@@ -15,6 +16,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("source", type=Path, help="Source markdown file or directory")
     parser.add_argument("target", type=Path, help="Target markdown file or directory")
+    parser.add_argument("--base-ref", default="HEAD~1", help="Git ref to diff against (default: HEAD~1)")
     return parser.parse_args()
 
 
@@ -119,7 +121,21 @@ def iter_markdown_files(source_dir: Path) -> list[Path]:
     )
 
 
-def convert_path(source: Path, target: Path) -> None:
+def changed_files(source_dir: Path, base_ref: str) -> set[Path] | None:
+    try:
+        result = subprocess.run(
+            ["git", "diff", "--name-only", "--diff-filter=AM", base_ref, "HEAD", "--", str(source_dir)],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+    return {Path(line) for line in result.stdout.strip().splitlines() if line}
+
+
+def convert_path(source: Path, target: Path, base_ref: str = "HEAD~1") -> None:
     if source.is_file():
         output_path = target / source.name if target.exists() and target.is_dir() else target
         convert_file(source, output_path)
@@ -128,8 +144,17 @@ def convert_path(source: Path, target: Path) -> None:
     if not source.is_dir():
         raise ValueError(f"{source}: source path does not exist")
 
+    changed = changed_files(source, base_ref)
+    all_files = iter_markdown_files(source)
+
+    if changed is not None:
+        all_files = [f for f in all_files if f in changed]
+        if not all_files:
+            print("No new or modified blog posts in latest commit; skipping DEV conversion.")
+            return
+
     target.mkdir(parents=True, exist_ok=True)
-    for source_file in iter_markdown_files(source):
+    for source_file in all_files:
         relative_path = source_file.relative_to(source)
         convert_file(source_file, target / relative_path)
 
@@ -138,7 +163,7 @@ def main() -> int:
     args = parse_args()
 
     try:
-        convert_path(args.source, args.target)
+        convert_path(args.source, args.target, args.base_ref)
     except Exception as exc:
         print(str(exc), file=sys.stderr)
         return 1
