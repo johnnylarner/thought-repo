@@ -26,7 +26,7 @@
             <h1 class="title-hero__headline">About Me</h1>
             <div class="title-hero__support">{{ section.content | safe }}</div>
         </div>
-        <img class="title-hero__photo" src="/images/profile.png" alt="Photo of me" />
+        <img class="title-hero__photo" src="{{ get_url(path='images/profile.png') | safe }}" alt="Photo of me" />
     </header>
 
     <section id="recent-posts" class="title-list" aria-label="Recent posts">
