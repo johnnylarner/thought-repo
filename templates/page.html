@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{%- block title -%}
+{{ page.title }} | {{ config.title }}
+{%- endblock -%}
+
+{%- block description -%}
+    {%- if page.description %}
+    <meta name="description" content="{{ page.description | markdown(inline=true) | striptags }}">
+    {%- elif page.summary %}
+    <meta name="description" content="{{ page.summary | linebreaksbr | replace(from="<br>", to=" ") | striptags | trim_end_matches(pat=".") | safe }}…">
+    {%- endif %}
+{%- endblock -%}
+
+{%- block main -%}
+{%- filter indent -%}{%- filter indent -%}
+<article class="post content">
+    {{ post_macros::header(page=page, heading="h1") | indent | safe }}
+{%- endfilter %}{%- endfilter %}
+
+{{ page.content | safe }}
+
+{%- filter indent -%}{%- filter indent %}
+</article>
+{%- set posts_page = get_page(path="posts.md") -%}
+<nav class="post-navigation">
+    <div class="post-navigation-buttons">
+        <a href="{{ get_url(path='/') | safe }}">
+            <span aria-hidden="true">[</span>Home<span aria-hidden="true">]</span>
+        </a>
+        <span aria-hidden="true" role="separator">::</span>
+        <a href="{{ posts_page.permalink | safe }}">
+            <span aria-hidden="true">[</span>All Posts<span aria-hidden="true">]</span>
+        </a>
+        <span aria-hidden="true" role="separator">::</span>
+        <a href="#top">
+            <span aria-hidden="true">[</span>Back to Top<span aria-hidden="true">]</span>
+        </a>
+    </div>
+</nav>
+{% include "partials/comments.html" -%}
+{% endfilter %}{% endfilter %}
+{%- endblock -%}
