@@ -6,6 +6,10 @@ Zola static site (blog) using the Terminus theme (submodule at `themes/terminus/
 
 Stack: Zola (Rust SSG), Tera templates, SCSS, vanilla JS, TOML config, Markdown content.
 
+## Important Rules
+
+- **Never modify files in `themes/terminus/` directly.** It is a git submodule. Always override by copying to the equivalent path in the project root (`templates/`, `sass/`, `static/`).
+
 ## Commands
 
 | Command | Purpose |
