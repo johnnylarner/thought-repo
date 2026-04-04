@@ -28,4 +28,4 @@ feed = true
 
 
 [extra]
-# Put all your custom variables here
+favicon = "images/profile.png"
