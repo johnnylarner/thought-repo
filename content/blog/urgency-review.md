@@ -1,0 +1,30 @@
++++
+title = "Urgency review: where is the centre?"
+date = 2026-04-06
+description = "Review of the 'Urgency' dance performance at Haus der Visionaere"
+canonical_url = "https://johnnylarner.github.io/thought-repo/blog/urgency-review/"
+[taxonomies]
+tags = ["culture", "Berlin"]
+[extra]
+copy_button = true
++++
+
+It's been a while since I last attended a contemporary dance event back at the end of 2024. A lot has happened since then in both my life and global affairs. But let's not go down that rabbit hole, instead let's set the scene. It's a chilly Friday night in early spring and I roll up to Haus der Visionaere - a new-ish establishment from the owners of CdV - on my nextbike. Sporting blue jeans and orangey cord shirt I resemble an American dad from 1970s. I look around to see my fellow show-goers: cliques of urban socialites, varying in age but collectively dressed in different shades of black. I arrive fairly early and have to wait for my company for the evening to arrive. I notice the number of young Anglophone guests streaming past me as I wait. I've always found it unnerving to be surrounded by people from my home country when abroad, be it on a beach in Brazil or in an icey Berlin warehouse. But I dismiss my judgemental thoughts, greet my friends at the bar and proceed on into the event space.
+
+The central room in HdV isn't a particularly unique space in all honesty, it's a bread and butter warehouse. For the performance they had assembled a black square stage lodged between some of the steel vertebrae that form a steel spine across what I assume used to be a factory hall. Three sides of the stage are lined with seating, the walls behind which are illuminated with grey-scale projections. The fourth side, which we may want to interpret as the front, is open. At its edge there are five large boxes that lend a Klubnacht aesthetic to the space. Despite arriving early, there are no good spots left and we end up seated at an awkward 45-degree angle to the front of the stage. A woman in a fantastical hooded coat meanders through the crowd. Slowly she approaches the stage, hanging her signature piece on a steel spine. The crowds chatter fades out as we realise the show is upon us.
+
+> _The scene is now set, and rather than running through the shows contents in a linear fashion, I'm instead going to jump back and forth around the impressionable moments (partially because I can't quite remember the order of affairs). Enjoy!_
+
+Urgency introduces its creators through the idea of the centre. The dancers, two male and two female, burst onto the scene equipped white masking tape which they use energetically to mark a crosshair on the stage. This ceremony is accompanied by a familiar techno sound that made clear that the party is starting! To formally end the opening scene, one dancer takes to her toes to meticulously straighten the tape. Her precision stands in contrast to the bolshy energy just displayed by the group and invites one to sharpen their focus on the moment.
+
+Having observed this scene from my diagonal perching the precision of the shape they created with the tape was diminished somewhat. In response to this, I and many other guests migrate towards the open space at the front of the stage to get a better look. Furthermore, this attempt to draw our attention to the centre felt somewhat thwarted by the fact that the stage itself is quite obviously not in the centre of the event space. But as the performance continues we see that this emphasis on the centre begins to fade. The dancers disperse and rotate around the corners of the event space, individually letting loose at close proximity to guests. It's clear that our focus is no longer on the centre, or that the centre has indeed moved to us. These intimate performances are somewhat intimidating as you see the vulnerability of each dancer: their facial expressions, their breathing, their bodies!
+
+Now situated more centrally and adjacent to the large Klubnacht boxes, I find myself excellently positioned to watch as the dancers continue their performance at what initially felt like the boundary of the event space. To earn their spots on top of the black cubes the dancers kindly encourage guests to make space. With new boundaries established they are able to project the confidence commonly found in Berlin's prestigious clubs, busting hips, pumping arms and, to be frank, moving their bodies with enticing control.
+
+To me this use of the peripheral space combined with the formal introduction of the centre really captures the essence of what a good dancefloor looks like: while its origin is at its centre, the artist and their music, its energy is distributed across the space and participants are able to find joy and memories wherever they are. In contrast, when a crowd is fixated in a zombie-like state on the centre, a dancefloor loses its dynamism and spontaneity, its fun.
+
+Stepping back and thinking more subjectively, for many in the audience watching the dancers oscillate between the centre and its edges the line between the true centre is blurred. For some the centre is to their left, others to the right. For very few the centre was directly in front of them. Today's world is one where consensus around a central point is becoming increasingly challenging. This is reflected most poignantly in the collapse of centrist parties in the democratic parts of the global north. I find myself of late trying to navigate this new political reality, searching for answers that may help the west unite around something that resembles consensus (though not centrist policies in a traditional sense). Perhaps this explains my fixation on the centre as presented in Urgency.
+
+Returning back now from my pretensions as a political commentator, I am still sat in an icy HdV watching as our graceful ballerina tiptoes along the paper crosshair. I'm left with a sense of fulfilment and gratefulness for what Berlin as city has been and continues to be - space for young creative people with a drive for self-expression.
+
+
