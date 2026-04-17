@@ -13,15 +13,34 @@
 {%- endblock -%}
 
 {%- block main -%}
+<link rel="stylesheet" href="{{ get_url(path='qr-share.css', cachebust=true) }}">
+<script defer src="{{ get_url(path='js/qr-share.js', cachebust=true) }}"></script>
 {%- filter indent -%}{%- filter indent -%}
 <article class="post content">
-    {{ post_macros::header(page=page, heading="h1") | indent | safe }}
+    {%- set tag_div = '<div class="post-tags">' -%}
+    {%- set tag_div_with_share = '<div class="post-tags"><button class="qr-share__open" aria-label="Share this post"><span aria-hidden="true">[</span>Share<span aria-hidden="true">]</span></button>' -%}
+    {{ post_macros::header(page=page, heading="h1") | replace(from=tag_div, to=tag_div_with_share) | indent | safe }}
 {%- endfilter %}{%- endfilter %}
 
 {{ page.content | safe }}
 
 {%- filter indent -%}{%- filter indent %}
 </article>
+<dialog class="qr-share__dialog">
+    <div class="qr-share__content">
+        <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;format=svg&amp;data={{ page.permalink | urlencode_strict }}"
+            alt="QR code linking to this page"
+            width="200"
+            height="200"
+            loading="lazy"
+        />
+        <p class="qr-share__hint">Scan to open this page</p>
+        <button class="qr-share__close" aria-label="Close">
+            <span aria-hidden="true">[</span>Close<span aria-hidden="true">]</span>
+        </button>
+    </div>
+</dialog>
 {%- set posts_page = get_page(path="posts.md") -%}
 <nav class="post-navigation">
     <div class="post-navigation-buttons">
