@@ -44,7 +44,7 @@
 {%- set posts_page = get_page(path="posts.md") -%}
 <nav class="post-navigation">
     <div class="post-navigation-buttons">
-        <a href="{{ get_url(path='/') | safe }}">
+        <a href="{{ get_url(path='/', trailing_slash=true) | safe }}">
             <span aria-hidden="true">[</span>Home<span aria-hidden="true">]</span>
         </a>
         <span aria-hidden="true" role="separator">::</span>

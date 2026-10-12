@@ -1,0 +1,12 @@
+.git
+**/.git
+public
+target
+.env
+.env.*
+.idea
+.DS_Store
+.codex
+.opencode
+.claude
+todo.md
