@@ -39,13 +39,13 @@ Existing post `canonical_url` values still point to the original blog.
 
 The [publish workflow](.github/workflows/publish.yml) builds an AMD64 and ARM64 image for each push to `main`. After GHCR accepts the image, the workflow creates a GitHub release at the exact source commit. Manual runs publish only when you select `main`.
 
-Each release has a matching Git tag and image tag, `YYYY.MM.DD.<run-number>.<run-attempt>`, for example `2026.10.14.123.1`. The date is the UTC date when the workflow defines the release identity. The run number distinguishes runs on the same date, and the attempt number distinguishes reruns. A failed release step can leave a pushed image without a GitHub release. A rerun gets a new attempt number and publishes under a new tag. The workflow does not publish a `latest` image tag. Container releases and DEV publishing run independently, so a DEV failure does not block a container release. DEV runs keep their own concurrency group and cancel older runs.
+Each release has a matching Git tag and image tag, `YYYY.MM.DD.HH.MM`, for example `2026.10.14.16.05`. The workflow records the UTC timestamp once when it defines the release identity, with minute precision. Before publishing an image, the workflow reserves the Git tag at the source commit. If the tag already exists, another run in the same minute fails before it can push an image. A failed build can leave the reserved Git tag, and a failed release step can leave a pushed image without a GitHub release. A rerun in a later minute gets a new tag. The workflow does not publish a `latest` image tag. Container releases and DEV publishing run independently, so a DEV failure does not block a container release. DEV runs keep their own concurrency group and cancel older runs.
 
-Open a [GitHub release](https://github.com/johnnylarner/thought-repo/releases) and use its digest-based pull and run commands to run the exact published image. You can also use its matching image tag, replacing `2026.10.14.123.1` with the release tag:
+Open a [GitHub release](https://github.com/johnnylarner/thought-repo/releases) and use its digest-based pull and run commands to run the exact published image. You can also use its matching image tag, replacing `2026.10.14.16.05` with the release tag:
 
 ```sh
-docker pull ghcr.io/johnnylarner/thought-repo:2026.10.14.123.1
-docker run --rm -p 8080:80 ghcr.io/johnnylarner/thought-repo:2026.10.14.123.1
+docker pull ghcr.io/johnnylarner/thought-repo:2026.10.14.16.05
+docker run --rm -p 8080:80 ghcr.io/johnnylarner/thought-repo:2026.10.14.16.05
 ```
 
 Open http://localhost:8080. Published images use root-relative URLs and work on any host or published port. Existing post canonical URLs still point to the original blog until a new public domain is chosen.

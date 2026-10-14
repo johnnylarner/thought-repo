@@ -26,16 +26,23 @@ jobs:
         id: release
         env:
           REPOSITORY: ${{ github.repository }}
-          RUN_NUMBER: ${{ github.run_number }}
-          RUN_ATTEMPT: ${{ github.run_attempt }}
           REVISION: ${{ github.sha }}
         run: |
-          RELEASE_TAG="$(date -u +%Y.%m.%d).${RUN_NUMBER}.${RUN_ATTEMPT}"
+          RELEASE_TAG="$(date -u +%Y.%m.%d.%H.%M)"
           {
             echo "tag=$RELEASE_TAG"
             echo "image=ghcr.io/${REPOSITORY,,}"
             echo "revision=$REVISION"
           } >> "$GITHUB_OUTPUT"
+
+      - name: Reserve release tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          REVISION: ${{ steps.release.outputs.revision }}
+        run: |
+          gh api --method POST "repos/$GH_REPO/git/refs" -f "ref=refs/tags/$RELEASE_TAG" -f "sha=$REVISION" > /dev/null
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1
@@ -89,7 +96,7 @@ jobs:
 
           [Workflow run]($RUN_URL)
           EOF_NOTES
-          gh release create "$RELEASE_TAG" --target "$REVISION" --title "$RELEASE_TAG" --notes-file "$RUNNER_TEMP/release-notes.md" --latest=false
+          gh release create "$RELEASE_TAG" --verify-tag --target "$REVISION" --title "$RELEASE_TAG" --notes-file "$RUNNER_TEMP/release-notes.md" --latest=false
 
   publish-dev:
     if: github.ref == 'refs/heads/main'

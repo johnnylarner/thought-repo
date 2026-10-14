@@ -130,9 +130,10 @@ Key `[extra]` options in `config.toml`:
 - Both jobs skip manual runs on other branches
 - The release job checks out the exact triggering SHA with recursive submodules
 - The release job pushes AMD64 and ARM64 images to `ghcr.io/<lowercase-owner>/<lowercase-repository>` before creating a GitHub release at that SHA
-- Git tags and image tags match: `YYYY.MM.DD.<run-number>.<run-attempt>`, for example `2026.10.14.123.1`
-- The date uses UTC when the workflow defines the release identity. Run numbers distinguish runs on the same date, and attempt numbers distinguish reruns
-- A failed release step may leave a pushed image. Reruns publish under a new attempt tag
+- Git tags and image tags match: `YYYY.MM.DD.HH.MM`, for example `2026.10.14.16.05`
+- The workflow records the UTC timestamp once when it defines the release identity, with minute precision
+- The workflow reserves the Git tag at the source commit before publishing an image. If the tag already exists, another run in the same minute fails before it can push an image
+- A failed build can leave the reserved Git tag. A failed release step can leave a pushed image without a GitHub release. A rerun in a later minute gets a new tag
 - No `latest` image alias is published
 - Release notes include the image tag, manifest digest commands, source SHA, package link, and workflow link
 - Registry authentication uses `GITHUB_TOKEN`, with no additional registry secret
