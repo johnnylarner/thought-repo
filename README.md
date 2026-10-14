@@ -1,6 +1,6 @@
 # thought-repo
 
-Zola-powered blog, deployed to GitHub Pages.
+Zola-powered blog, published as a Docker image on GitHub Container Registry.
 
 ## Local development
 
@@ -35,24 +35,24 @@ docker build --build-arg BASE_URL=https://example.com -t thought-repo .
 
 Existing post `canonical_url` values still point to the original blog.
 
-## Publish the Docker image to GHCR
+## Run a published container release
 
-Build, tag, and push the image to GitHub Container Registry. Log in with a GitHub personal access token that has `write:packages` permission:
+The [publish workflow](.github/workflows/publish.yml) builds an AMD64 and ARM64 image for each push to `main`. After GHCR accepts the image, the workflow creates a GitHub release at the exact source commit. Manual runs publish only when you select `main`.
 
-```sh
-docker build -t ghcr.io/johnnylarner/thought-repo:latest .
-docker login ghcr.io -u YOUR_GITHUB_USERNAME
-docker push ghcr.io/johnnylarner/thought-repo:latest
-```
+Each release has a matching Git tag and image tag, `YYYY.MM.DD.<run-number>.<run-attempt>`, for example `2026.10.14.123.1`. The date is the UTC date when the workflow defines the release identity. The run number distinguishes runs on the same date, and the attempt number distinguishes reruns. A failed release step can leave a pushed image without a GitHub release. A rerun gets a new attempt number and publishes under a new tag. The workflow does not publish a `latest` image tag. Container releases and DEV publishing run independently, so a DEV failure does not block a container release. DEV runs keep their own concurrency group and cancel older runs.
 
-Pull and run it on a host with Docker:
+Open a [GitHub release](https://github.com/johnnylarner/thought-repo/releases) and use its digest-based pull and run commands to run the exact published image. You can also use its matching image tag, replacing `2026.10.14.123.1` with the release tag:
 
 ```sh
-docker pull ghcr.io/johnnylarner/thought-repo:latest
-docker run --rm -p 8080:80 ghcr.io/johnnylarner/thought-repo:latest
+docker pull ghcr.io/johnnylarner/thought-repo:2026.10.14.123.1
+docker run --rm -p 8080:80 ghcr.io/johnnylarner/thought-repo:2026.10.14.123.1
 ```
 
-Open http://localhost:8080. The default root-relative URLs work on any host or published port. To set canonical URLs and feeds to a public domain, pass `--build-arg BASE_URL=https://example.com` when building the image.
+Open http://localhost:8080. Published images use root-relative URLs and work on any host or published port. Existing post canonical URLs still point to the original blog until a new public domain is chosen.
+
+The workflow authenticates to GHCR with `GITHUB_TOKEN`. No additional registry secret is required. New GHCR packages are private by default. To allow anonymous pulls, change the package visibility to public. For a private package, authenticate Docker with a token that has `read:packages` permission. If the package was previously pushed manually, grant this repository Actions access in the package settings before running the workflow.
+
+GitHub does not trigger another push workflow for commits created with `GITHUB_TOKEN`, including DEV sync state commits.
 
 ## Publishing to dev.to
 
@@ -60,7 +60,7 @@ This repository publishes new articles to dev.to automatically via GitHub Action
 
 Workflow:
 - File: `.github/workflows/publish.yml`
-- Trigger: Push to `main` or manual `workflow_dispatch`
+- Trigger: Push to `main` or manual `workflow_dispatch` on `main`
 
 Article sync scope:
 - Includes all markdown files under `content/blog/`
@@ -68,7 +68,7 @@ Article sync scope:
 - Posts without the `software` tag are skipped with a warning during DEV conversion
 
 Publishing:
-- Builds and deploys the Zola site to GitHub Pages in the same workflow
+- Runs independently of the container release job
 - Uses `sinedied/publish-devto@v2`
 - Lets the action handle create/update sync for matching files
 
@@ -76,6 +76,6 @@ Required repository secrets:
 - `DEVTO_API_KEY`: dev.to API key for publishing
 
 Notes:
-- The workflow is push-driven on `main`. Feature branch updates do not publish unless manually triggered after merge.
+- Feature branch pushes and manual runs on feature branches do not publish.
 - If a draft file (`draft = true`) reaches DEV conversion, it is sent with `published: false`.
-- For SEO attribution, set `canonical_url` in each post front matter to the GitHub Pages URL for that post.
+- Existing `canonical_url` values retain the original GitHub Pages URLs until a new public domain is chosen.

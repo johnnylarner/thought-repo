@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Zola static site (blog) using the Terminus theme (submodule at `themes/terminus/`). Deployed to GitHub Pages at `https://johnnylarner.github.io/thought-repo`.
+Zola static site (blog) using the Terminus theme (submodule at `themes/terminus/`). Published as a multi-platform Docker image on GHCR with a matching GitHub release. Existing canonical URLs retain `https://johnnylarner.github.io/thought-repo` until a new public domain is chosen.
 
 Stack: Zola (Rust SSG), Tera templates, SCSS, vanilla JS, TOML config, Markdown content.
 
@@ -123,16 +123,29 @@ Key `[extra]` options in `config.toml`:
 - `public/` is tracked in git
 - `.gitignore` excludes: `/target`, `.env`, `.idea`, `*.db*`
 
-## CI Publishing (dev.to)
+## CI publishing and container releases
 
 - Workflow file: `.github/workflows/publish.yml`
-- Publish is triggered on push to `main` and manual `workflow_dispatch`
+- Publish is triggered on push to `main` and manual `workflow_dispatch` on `main`
+- Both jobs skip manual runs on other branches
+- The release job checks out the exact triggering SHA with recursive submodules
+- The release job pushes AMD64 and ARM64 images to `ghcr.io/<lowercase-owner>/<lowercase-repository>` before creating a GitHub release at that SHA
+- Git tags and image tags match: `YYYY.MM.DD.<run-number>.<run-attempt>`, for example `2026.10.14.123.1`
+- The date uses UTC when the workflow defines the release identity. Run numbers distinguish runs on the same date, and attempt numbers distinguish reruns
+- A failed release step may leave a pushed image. Reruns publish under a new attempt tag
+- No `latest` image alias is published
+- Release notes include the image tag, manifest digest commands, source SHA, package link, and workflow link
+- Registry authentication uses `GITHUB_TOKEN`, with no additional registry secret
+- New GHCR packages default to private. Existing manually pushed packages may need repository Actions access
+- GitHub suppresses push workflows for commits created with `GITHUB_TOKEN`, including DEV sync state commits
 - Sync scope is all markdown files under `content/blog/`
 - `_index.md` files are excluded during conversion
 - Posts without a `software` tag are skipped with a warning during DEV conversion
 - Create/update behavior is delegated to `sinedied/publish-devto` sync state
 - Publishing is done via `sinedied/publish-devto@v2`
-- GitHub Pages deployment happens in the same workflow before DEV publishing
+- Container releases and DEV publishing run as independent jobs
+- Only DEV uses a concurrency group, with older runs canceled
+- GitHub Pages deployment is no longer part of the workflow
 - Required GitHub secret: `DEVTO_API_KEY`
 - Draft status is converted to `published: false` in the generated DEV front matter
 - Posts should include `canonical_url` pointing to the blog URL for SEO attribution on dev.to
